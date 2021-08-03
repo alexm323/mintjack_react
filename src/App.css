@@ -1,0 +1,87 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style:none;
+  font-size: 62.5%;
+  color: rgba(9, 7, 11, 1);
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  scroll-behavior: smooth;
+}
+
+/* fonts */
+/* 4.209rem */
+/* 3.157rem */
+/* 2.369rem */
+/* 1.777rem */
+/* 1.333rem */
+/* 1rem */
+
+/* colors */
+/* rgba(242,240,231, 1) - sand */
+/* rgba(3, 4, 94, 1) - dark Blue */
+/* rgba(2, 62, 138, 1) - medium dark Blue */
+/* rgba(0, 119, 182, 1)  - medium blue */
+/* rgba(202, 240, 248, 1)  - light blue */
+
+h1, h3{
+  font-family: 'Orelega One', cursive;
+  font-size: 8.5rem;
+  letter-spacing: .1rem;
+}
+h2, i{
+  font-size: 2.369rem;
+}
+h1, h2, h3, h4, p, i, a, button, input{
+  color: rgba(3, 4, 94, 1);
+}
+label{
+  color: white;
+}
+label, button, a{
+  font-size: 1.777rem;
+}
+
+.padding{
+  padding: 1.333rem;
+}
+p, input, textarea, h4{
+  font-size: 1.333rem;
+}
+.navBtns{
+        background-color: rgba(255,255,255, .7);
+        padding:1.777rem;
+        border-radius: 1rem;
+        width: 16rem;
+        text-align: center;
+        /* margin-right: 1.777rem; */
+        display: inline-block;
+}
+.navBtns:hover{
+  background-color: rgb(3, 4, 94);
+  color: white;
+}
+.headerLink{
+  padding: 1rem;
+  font-size: 4.209rem;
+}
+.headerLink2{
+  /* padding: 1rem; */
+  font-size: 4.209rem;
+}
+.headerLink:hover{
+  border: solid 1px rgba(0,0,0,.1);
+  border-radius: 1rem;
+}
+i:hover{
+  color:rgba(0, 119, 182, 1);
+}
+input{
+  width: 100%;
+  padding: 1rem 0;
+  border: none;
+}
+button{
+  border: none;
+}
