@@ -57,7 +57,7 @@ const BlackjackTable = () => {
 
     // TODO retrieve the user , specifically their money so they can make a phone 
     useEffect(() => {
-      axios.get('http://localhost:3000/loggedInUser')
+      axios.get('https://mintjackreact.herokuapp.com/loggedInUser')
       .then(res => {
           console.log(res.data)
           if(Object.keys(res.data).length > 0){
@@ -68,7 +68,7 @@ const BlackjackTable = () => {
     },[fetchDeck])
 
     const logout = () =>{
-      axios.get('http://localhost:3000/logout')
+      axios.get('https://mintjackreact.herokuapp.com/logout')
       .then(res => {
         setLoggedInUserContext(false)
       })
