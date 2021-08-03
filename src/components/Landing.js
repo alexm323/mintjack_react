@@ -106,7 +106,7 @@ const Landing = () => {
     const {loggedInUserContext, setLoggedInUserContext} = useContext(UserContext)
 
     useEffect(()=>{
-        axios.get('https://mintjackreact.herokuapp.com/loggedInUser')
+        axios.get('https://blackjackmint.herokuapp.com/loggedInUser')
         .then(res => {
             console.log(res.data)
             if(Object.keys(res.data).length > 0){
@@ -116,7 +116,7 @@ const Landing = () => {
     }, [])
 
     const logout = () => {        
-                axios.get(`https://mintjackreact.herokuapp.com/logout`)
+                axios.get(`https://blackjackmint.herokuapp.com/logout`)
                 .then(res => {
                     setLoggedInUserContext(false)
                   })
