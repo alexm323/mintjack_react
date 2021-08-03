@@ -55,15 +55,17 @@ const BlackjackTable = () => {
       setD("deckid",res)
     },[]) 
 
-    // TODO retrieve the user , specifically their money so they can make a phone 
+    // TODO retrieve the user , specifically their money so they can make a bet 
     useEffect(() => {
-      axios.get('https://blackjackmint.herokuapp.com/loggedInUser')
+      axios.get('https://blackjackmint.herokuapp.com/loggedInUser', {withCredentials: true})
       .then(res => {
           console.log(res.data)
           if(Object.keys(res.data).length > 0){
               setLoggedInUserContext(true)
           }
       })
+      // TODO check if this is running correctly when not in heroku deploy
+      setLoggedInUserContext(true)
       fetchDeck()
     },[fetchDeck])
 

@@ -106,7 +106,7 @@ const Landing = () => {
     const {loggedInUserContext, setLoggedInUserContext} = useContext(UserContext)
 
     useEffect(()=>{
-        axios.get('https://blackjackmint.herokuapp.com/loggedInUser')
+        axios.get('https://blackjackmint.herokuapp.com/loggedInUser', {withCredentials: true})
         .then(res => {
             console.log(res.data)
             if(Object.keys(res.data).length > 0){
@@ -266,15 +266,15 @@ const Landing = () => {
                         <p style={styles.marginTopMid}>Los Angeles, California</p>
                         <div style={styles.socials}>
                             <a  href='https://github.com/alexm323' 
-                                target='_blank'>
+                                target='_blank' rel="noreferrer">
                                     <i class="fab fa-github-alt"></i>
                             </a>
                             <a  href='https://twitter.com/DevWentDownToCA'
-                                target='_blank'>
+                                target='_blank' rel="noreferrer">
                                     <i class="fab fa-twitter"></i>
                             </a>
                             <a  href='https://www.linkedin.com/in/alejandro-martinez-jr/'
-                                target='_blank'>
+                                target='_blank' rel="noreferrer">
                                     <i class="fab fa-linkedin"></i>
                             </a>
                         </div>
@@ -286,15 +286,15 @@ const Landing = () => {
                         <p style={styles.marginTopMid}>Miami, Florida</p>
                         <div style={styles.socials}>
                         <a  href='https://github.com/TelescopeThieves' 
-                                target='_blank'>
+                                target='_blank' rel="noreferrer">
                                     <i class="fab fa-github-alt"></i>
                             </a>
                             <a  href='https://twitter.com/TelescpeThieves'
-                                target='_blank'>
+                                target='_blank' rel="noreferrer">
                                     <i class="fab fa-twitter"></i>
                             </a>
                             <a  href='https://www.linkedin.com/in/mario-de-los-santos-dev/'
-                                target='_blank'>
+                                target='_blank' rel="noreferrer">
                                     <i class="fab fa-linkedin"></i>
                             </a>
                         </div>    
@@ -306,15 +306,15 @@ const Landing = () => {
                         <p style={styles.marginTopMid}>New York, NY</p>
                         <div style={styles.socials}>
                         <a  href='https://github.com/ashtarcodes' 
-                                target='_blank'>
+                                target='_blank' rel="noreferrer">
                                     <i class="fab fa-github-alt"></i>
                             </a>
                             <a  href='https://twitter.com/ashtarcodes'
-                                target='_blank'>
+                                target='_blank' rel="noreferrer">
                                     <i class="fab fa-twitter"></i>
                             </a>
                             <a  href='https://linkedin.com/in/ashtar-paniagua'
-                                target='_blank'>
+                                target='_blank' rel="noreferrer">
                                     <i class="fab fa-linkedin"></i>
                             </a>
                         </div>
