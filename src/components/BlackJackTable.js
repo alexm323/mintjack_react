@@ -86,7 +86,7 @@ const BlackjackTable = () => {
             <button onClick={logout} className='navBtns'>Log out</button>
           </nav>
           <div style={styles.hero}>
-          <Game deckId={deckId}/>
+          <Game deckId={deckId} loggedInUser={loggedInUserContext}/>
           </div>
         </div>
       )
