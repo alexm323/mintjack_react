@@ -12,14 +12,14 @@ const styles ={
     buttonDiv:{
         width: '100%',
         display: 'flex',
-        justifyContent: 'flex-end'
+        justifyContent: 'space-between'
     },
     marginRight:{
         marginRight:'1.777rem'
     }
 }
 
-const PlayerHand = ({deck,trackPlayerValue,initialCards,setFlippedStatus, flipped}) => {
+const PlayerHand = ({deck,trackPlayerValue,initialCards,setFlippedStatus, flipped, roundOver}) => {
     const [loadedCards,setLoadedCards] = useState(false)
     const [playerValue,setPlayerValue] = useState(0)
     const [currentCards,setCurrentCards] = useState([])
@@ -201,8 +201,13 @@ const PlayerHand = ({deck,trackPlayerValue,initialCards,setFlippedStatus, flippe
                 <h2>Current Hand Value: {playerValue}</h2>
             </div>
             <div style={styles.buttonDiv}>
-                <button disabled={flipped} onClick={handleHit} className={!flipped ? 'navBtns' : 'navBtns disabledBtn'} style={styles.marginRight}>Hit me</button>
-                <button disabled={flipped} onClick={handleStay} className={!flipped ? 'navBtns' : 'navBtns disabledBtn'}>Stay</button>
+                <div>
+                {roundOver && (<button className='navBtns' onClick={() => window.location.reload()}>Play Again</button>)}
+                </div>
+                <div> 
+                    <button disabled={flipped} onClick={handleHit} className={!flipped ? 'navBtns' : 'navBtns disabledBtn'} style={styles.marginRight}>Hit me</button>
+                    <button disabled={flipped} onClick={handleStay} className={!flipped ? 'navBtns' : 'navBtns disabledBtn'}>Stay</button>
+                </div>
             </div>
         </div>
     )

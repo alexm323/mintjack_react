@@ -4,6 +4,7 @@ import PlayerHand from './PlayerHand'
 import DealerHand from './DealerHand'
 import {initializeCardData} from '../helpers'
 import { Redirect, Link } from 'react-router-dom'
+import axios from 'axios'
 
 const styles = {
     game:{
@@ -15,6 +16,55 @@ const styles = {
     }
 }
 function Game({deckId}) {
+    const [bet, setBet] = useState(false)
+    const [betClasses, setBetClasses] = useState({
+        '50' : 'navBtns',
+        '100' : 'navBtns',
+        '500' : 'navBtns'
+    })
+    function updateBet(e){
+
+        console.log(e.target.textContent)
+        setBet(e.target.textContent)
+
+            setBetClasses(() => {
+                let result;
+                if (e.target.textContent === '50'){
+                  result = {
+                  '50': 'navBtns-clicked',
+                  '100': 'navBtns',
+                  '500': 'navBtns' 
+                  } 
+                } else if(e.target.textContent === '100'){
+                    result = {
+                        '50': 'navBtns',
+                        '100': 'navBtns-clicked',
+                        '500': 'navBtns'
+                    } 
+                }else if(e.target.textContent === '500'){
+                    result = {
+                        '50': 'navBtns',
+                        '100': 'navBtns',
+                        '500': 'navBtns-clicked' 
+                    }
+                }
+                return result
+                })
+        
+    }   
+    function updateBetOnUser (winCondition,userID,bet) {
+        // let user;
+        console.log(winCondition)
+        console.log(userID)
+        console.log(bet)
+        if(winCondition === 'win' || winCondition === 'lose'){
+           axios.put(`http://blackjackmint.herokuapp.com/post/${winCondition}/${userID}/${bet}`)
+            .then(res => {
+            console.log(res.data)
+            })
+        }
+        // return user ? user : 'tie'
+    };
     // keeping track of the player hands once they are finished with their turn 
     const [finalPlayerValue,setFinalPlayerValue] = useState(0)
     const [finalDealerValue,setFinalDealerValue] = useState(0)
@@ -33,8 +83,6 @@ function Game({deckId}) {
     const trackDealerValue = (val) => {
         setFinalDealerValue(val)
     }
-
-   
     const [playerState, setPlayerState] = useState([])
     const [dealerState, setDealerState] = useState([])
 
@@ -48,28 +96,43 @@ function Game({deckId}) {
     },[])
     // TODO handle the case where the player is greater than the dealer value but still under 21 (add && conditional)
     // TODO handle if a player busts and the dealer busts as well, we can count it as a draw for the player and they don't lost their bet
+    const [loggedInUser, setLoggedInUser] = useState()
     useEffect(() => {
         console.log('deck id',deckId)
-        // console.log('running useeffect in the game component to eval player vs dealer')
-        if(finalDealerValue && finalPlayerValue){
-            if(finalDealerValue > finalPlayerValue && finalDealerValue <= 21){
-                console.log('Dealer Wins')
-            }else if(finalPlayerValue > finalDealerValue && finalPlayerValue <= 21){
-                console.log('Player Wins')
-            }else if ((finalDealerValue === finalPlayerValue && finalPlayerValue <= 21 && finalDealerValue <= 21) || ((finalDealerValue > 21 && finalPlayerValue > 21) && (finalPlayerValue < finalDealerValue))) {
-                console.log('Tie!')
-            }else if(finalDealerValue <= 21  && finalPlayerValue > 21){
-                console.log('Dealer Wins!')
-            
-            }else if(finalDealerValue >= 21  && finalPlayerValue <= 21){
-                console.log('Player Wins!')
-            }else if(finalDealerValue > 21 && finalPlayerValue > 21 && (finalDealerValue < finalPlayerValue)){
-                console.log('Dealer')
-            } else if ((finalDealerValue === finalPlayerValue && finalPlayerValue >= 21 && finalDealerValue >= 21)){
-                console.log('Dealer Wins!')
+        let result;
+        axios.get('http://blackjackmint.herokuapp.com/loggedInUser', {withCredentials: true})
+        .then(({data: user}) => {
+              setLoggedInUser(user)
+            if(finalDealerValue && finalPlayerValue){
+                if(finalDealerValue > finalPlayerValue && finalDealerValue <= 21){
+                    alert('Dealer Wins')
+                    result = 'lose';
+                }else if(finalPlayerValue > finalDealerValue && finalPlayerValue <= 21){
+                    alert('Player Wins')
+                    result = 'win' ;               
+                    
+                }else if ((finalDealerValue === finalPlayerValue && finalPlayerValue <= 21 && finalDealerValue <= 21) || ((finalDealerValue > 21 && finalPlayerValue > 21) && (finalPlayerValue < finalDealerValue))) {
+                    alert('Tie!')
+                    result = 'tie';
+                }else if(finalDealerValue <= 21  && finalPlayerValue > 21){
+                    alert('Dealer Wins!')
+                    result = 'lose';            
+                }else if(finalDealerValue >= 21  && finalPlayerValue <= 21){
+                    alert('Player Wins!')
+                    result = 'win' ;
+                }else if(finalDealerValue > 21 && finalPlayerValue > 21 && (finalDealerValue < finalPlayerValue)){
+                    alert('Dealer')
+                    result = 'lose' ;
+                } else if ((finalDealerValue === finalPlayerValue && finalPlayerValue >= 21 && finalDealerValue >= 21)){
+                    alert('Dealer Wins!')
+                    result = 'lose';
+                }
+                updateBetOnUser(result,user._id,bet)
+                setRoundOver(true)
             }
-            setRoundOver(true)
-        }
+        })
+        // console.log('running useeffect in the game component to eval player vs dealer')
+        
     }, [finalDealerValue])
     
     useEffect(() => {
@@ -81,7 +144,16 @@ function Game({deckId}) {
     if(!loadingCards){
         return (      
             <div>
-                <button onClick={() => handleSetup(deckId,1)} className='navBtns'>Start Game</button>
+                {bet ? 
+                (<button onClick={() => handleSetup(deckId,1)} className='navBtns'>Start Game</button> )
+                : 
+                (<button onClick={() => alert('Please set your bet')} className='navBtns'>Start Game</button>)
+                }
+                
+                <button onClick={(e) => updateBet(e)} className={betClasses['50']}>50</button>
+                <button onClick={(e) => updateBet(e)} className={betClasses['100']}>100</button>
+                <button onClick={(e) => updateBet(e)} className={betClasses['500']}>500</button>
+
             </div>
         )
     } else if (roundOver){
@@ -100,8 +172,8 @@ function Game({deckId}) {
                     flipped={flipped}
                     initialCards={playerState} 
                     trackPlayerValue={trackPlayerValue} 
-                    deck={deckId}/>
-            <button className='navBtns' onClick={() => window.location.reload()}>Play Again</button>
+                    deck={deckId}
+                    roundOver={roundOver}/>            
         </div>
         )
     } else{
@@ -128,6 +200,19 @@ function Game({deckId}) {
 }
 
 export default Game
+
+
+
+
+
+// axios.put(`http://blackjackmint.herokuapp.com/lose/${userID}/${bet}`)
+// .then(res => {
+//   console.log(res.data)
+// })
+
+
+
+
 
 // load a game with the
 /*

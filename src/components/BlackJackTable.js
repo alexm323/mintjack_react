@@ -57,7 +57,7 @@ const BlackjackTable = () => {
 
     // TODO retrieve the user , specifically their money so they can make a bet 
     useEffect(() => {
-      axios.get('https://blackjackmint.herokuapp.com/loggedInUser', {withCredentials: true})
+      axios.get('http://blackjackmint.herokuapp.com/loggedInUser', {withCredentials: true})
       .then(res => {
           console.log(res.data)
           if(Object.keys(res.data).length > 0){
@@ -67,10 +67,10 @@ const BlackjackTable = () => {
       // TODO check if this is running correctly when not in heroku deploy
       setLoggedInUserContext(true)
       fetchDeck()
-    },[fetchDeck])
+    }, [])
 
     const logout = () =>{
-      axios.get('https://blackjackmint.herokuapp.com/logout')
+      axios.get('http://blackjackmint.herokuapp.com/logout')
       .then(res => {
         setLoggedInUserContext(false)
       })
@@ -86,7 +86,7 @@ const BlackjackTable = () => {
             <button onClick={logout} className='navBtns'>Log out</button>
           </nav>
           <div style={styles.hero}>
-          <Game deckId={deckId}/>
+          <Game deckId={deckId} loggedInUser={loggedInUserContext}/>
           </div>
         </div>
       )

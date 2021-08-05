@@ -47,7 +47,7 @@ const Signup = () => {
     
     // checks for logged in user and redirects to table if it finds one
     useEffect(()=>{
-        axios.get('https://blackjackmint.herokuapp.com/loggedInUser')
+        axios.get('http://blackjackmint.herokuapp.com/loggedInUser')
         .then(res => {
             console.log(res.data)
             if(Object.keys(res.data).length > 0){
@@ -79,7 +79,7 @@ const Signup = () => {
 
     const createAccount = () => {
 
-        axios.post('https://blackjackmint.herokuapp.com/post/signup', values)
+        axios.post('http://blackjackmint.herokuapp.com/post/signup', values)
             .then(({data}) => {
             console.log(data)
             setLoggedInUserContext(true)
