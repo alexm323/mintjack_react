@@ -58,6 +58,16 @@ p, input, textarea, h4{
         /* margin-right: 1.777rem; */
         display: inline-block;
 }
+.navBtns-clicked{
+        background-color: rgb(3, 4, 94);
+        color: white;
+        padding:1.777rem;
+        border-radius: 1rem;
+        width: 16rem;
+        text-align: center;
+        /* margin-right: 1.777rem; */
+        display: inline-block;
+}
 .navBtns:hover{
   background-color: rgb(3, 4, 94);
   color: white;
