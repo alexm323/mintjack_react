@@ -4,7 +4,7 @@ This is our flavor of blackjack, developed for the MintBean Hackathon. Thanks fo
 
 **Link to hosted webapp:** https://mintjackreact.herokuapp.com/ 
 
-**Link to the backend server:** https://github.com/elxm323/mintjack_server
+**Link to the backend server:** https://github.com/alexm323/mintjack_server
 
 ### :construction: This webapp is actively under construction! ###
 
