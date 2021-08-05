@@ -21,7 +21,39 @@ function Game({deckId}) {
         '50' : 'navBtns',
         '100' : 'navBtns',
         '500' : 'navBtns'
-    })
+    })    
+    // keeping track of the player hands once they are finished with their turn 
+    const [finalPlayerValue,setFinalPlayerValue] = useState(0)
+    const [finalDealerValue,setFinalDealerValue] = useState(0)
+    const [roundOver, setRoundOver] = useState(false)
+    // handle load
+    const [loadingCards,setIsLoadingCards] = useState(false)
+    const [flipped,setFlipped] = useState(false)
+    const [loggedInUser, setLoggedInUser] = useState()
+    const [playerState, setPlayerState] = useState([])
+    const [dealerState, setDealerState] = useState([])
+
+    // adds the value of they playersHand to the queue when they hit/bust/get to 21 , these values should be passed down to the dealer 
+    const setFlippedStatus = (status) => {
+        setFlipped(status)
+    }
+    const trackPlayerValue = (val) => {
+        setFinalPlayerValue(val)
+    }
+    // update the dealer value once the dealer is done hitting, if this triggers then we run the evaluation 
+    const trackDealerValue = (val) => {
+        setFinalDealerValue(val)
+    }
+    
+
+    const handleSetup = useCallback(async(deckId,players) => {
+        const res = await DeckAPI.drawCard(deckId,(4))
+        let cardsArr = (res.cards)
+        let initialDraw = initializeCardData(cardsArr,players)
+        setPlayerState([...initialDraw[1][0]])
+        setDealerState([...initialDraw[0]])
+        setIsLoadingCards(true)
+    },[])
     function updateBet(e){
 
         console.log(e.target.textContent)
@@ -58,49 +90,20 @@ function Game({deckId}) {
         console.log(userID)
         console.log(bet)
         if(winCondition === 'win' || winCondition === 'lose'){
-           axios.put(`http://blackjackmint.herokuapp.com/post/${winCondition}/${userID}/${bet}`)
+           axios.put(`https://blackjackmint.herokuapp.com/post/${winCondition}/${userID}/${bet}`)
             .then(res => {
             console.log(res.data)
             })
         }
         // return user ? user : 'tie'
     };
-    // keeping track of the player hands once they are finished with their turn 
-    const [finalPlayerValue,setFinalPlayerValue] = useState(0)
-    const [finalDealerValue,setFinalDealerValue] = useState(0)
-    const [roundOver, setRoundOver] = useState(false)
-    // handle load
-    const [loadingCards,setIsLoadingCards] = useState(false)
-    const [flipped,setFlipped] = useState(false)
-    // adds the value of they playersHand to the queue when they hit/bust/get to 21 , these values should be passed down to the dealer 
-    const setFlippedStatus = (status) => {
-        setFlipped(status)
-    }
-    const trackPlayerValue = (val) => {
-        setFinalPlayerValue(val)
-    }
-    // update the dealer value once the dealer is done hitting, if this triggers then we run the evaluation 
-    const trackDealerValue = (val) => {
-        setFinalDealerValue(val)
-    }
-    const [playerState, setPlayerState] = useState([])
-    const [dealerState, setDealerState] = useState([])
-
-    const handleSetup = useCallback(async(deckId,players) => {
-        const res = await DeckAPI.drawCard(deckId,(4))
-        let cardsArr = (res.cards)
-        let initialDraw = initializeCardData(cardsArr,players)
-        setPlayerState([...initialDraw[1][0]])
-        setDealerState([...initialDraw[0]])
-        setIsLoadingCards(true)
-    },[])
     // TODO handle the case where the player is greater than the dealer value but still under 21 (add && conditional)
     // TODO handle if a player busts and the dealer busts as well, we can count it as a draw for the player and they don't lost their bet
-    const [loggedInUser, setLoggedInUser] = useState()
+    
     useEffect(() => {
         console.log('deck id',deckId)
         let result;
-        axios.get('http://blackjackmint.herokuapp.com/loggedInUser', {withCredentials: true})
+        axios.get('https://blackjackmint.herokuapp.com/loggedInUser', {withCredentials: true})
         .then(({data: user}) => {
               setLoggedInUser(user)
             if(finalDealerValue && finalPlayerValue){
@@ -205,7 +208,7 @@ export default Game
 
 
 
-// axios.put(`http://blackjackmint.herokuapp.com/lose/${userID}/${bet}`)
+// axios.put(`https://blackjackmint.herokuapp.com/lose/${userID}/${bet}`)
 // .then(res => {
 //   console.log(res.data)
 // })
