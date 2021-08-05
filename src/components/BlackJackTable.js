@@ -67,10 +67,10 @@ const BlackjackTable = () => {
       // TODO check if this is running correctly when not in heroku deploy
       setLoggedInUserContext(true)
       fetchDeck()
-    }, [fetchDeck])
+    },[fetchDeck])
 
     const logout = () =>{
-      axios.get('http://blackjackmint.herokuapp.com/logout')
+      axios.get('https://blackjackmint.herokuapp.com/logout')
       .then(res => {
         setLoggedInUserContext(false)
       })
