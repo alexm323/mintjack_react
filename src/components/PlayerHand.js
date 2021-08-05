@@ -19,7 +19,7 @@ const styles ={
     }
 }
 
-const PlayerHand = ({deck,trackPlayerValue,initialCards,setFlippedStatus, flipped, roundOver}) => {
+const PlayerHand = ({deck,trackPlayerValue,initialCards,setFlippedStatus, flipped}) => {
     const [loadedCards,setLoadedCards] = useState(false)
     const [playerValue,setPlayerValue] = useState(0)
     const [currentCards,setCurrentCards] = useState([])
@@ -202,7 +202,7 @@ const PlayerHand = ({deck,trackPlayerValue,initialCards,setFlippedStatus, flippe
             </div>
             <div style={styles.buttonDiv}>
                 <div>
-                {roundOver && (<button className='navBtns' onClick={() => window.location.reload()}>Play Again</button>)}
+                {flipped && (<button className='navBtns' onClick={() => window.location.reload()}>Play Again</button>)}
                 </div>
                 <div> 
                     <button disabled={flipped} onClick={handleHit} className={!flipped ? 'navBtns' : 'navBtns disabledBtn'} style={styles.marginRight}>Hit me</button>
